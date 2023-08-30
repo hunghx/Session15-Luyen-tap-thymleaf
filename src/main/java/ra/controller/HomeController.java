@@ -3,14 +3,13 @@ package ra.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import ra.model.FormRegisterDto;
 import ra.model.User;
 import ra.model.UserDto;
+import ra.model.UserLoginDto;
 import ra.service.IUserService;
 
 import javax.servlet.http.HttpSession;
@@ -25,26 +24,26 @@ public class HomeController {
     return "home";
 }
 @GetMapping("/form-login")
-    public String login(){
-    return "login";
+    public ModelAndView login(){
+    return new ModelAndView ("login","formDto",new UserLoginDto());
 }
 @GetMapping("/form-register")
-    public String register(){
-    return "register";
+    public ModelAndView register(){
+    return new ModelAndView("register","formDto",new FormRegisterDto());
 }
 @GetMapping("/admin")
     public  String admin(){
     return "admin";
 }
 @PostMapping("/handle-register")
-    public String doRegister(@RequestParam("username") String username, @RequestParam("full_name") String fullName , @RequestParam("password") String password, @RequestParam("avatar")MultipartFile avatar){
-    userService.doRegiter(new FormRegisterDto(username,fullName,password,avatar));
+    public String doRegister(@ModelAttribute FormRegisterDto formDto){
+    userService.doRegiter(formDto);
     return "login";
 }
 @PostMapping("/handle-login")
-    public String handleLogin(HttpSession session, Model model, @RequestParam("username") String username, @RequestParam("password") String password){
+    public String handleLogin(HttpSession session, Model model,@ModelAttribute UserLoginDto formDto){
     // gửi dữ liệu từ form sáng service để xử lí
-    UserDto userDto= userService.login(username,password);
+    UserDto userDto= userService.login(formDto.getUsername(),formDto.getPassword());
     if(userDto==null){
 //        tài khaonr không tồn tại
         model.addAttribute("error","Tài khoản không chinhs xác!");

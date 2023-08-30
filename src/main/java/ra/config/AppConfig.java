@@ -66,7 +66,16 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     // cấu hình đường dẫn
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/upload/**")
-                .addResourceLocations("file:"+pathImage);
+        registry.addResourceHandler("/upload/**",
+                                    "/css/**",
+                                    "/js/**",
+                                    "/fonts/**",
+                                    "/img/**"
+                        )
+                .addResourceLocations("file:"+pathImage,
+                                    "classpath:/assets/css/",
+                                    "classpath:/assets/js/",
+                                    "classpath:/assets/fonts/",
+                                    "classpath:/assets/img/");
     }
 }

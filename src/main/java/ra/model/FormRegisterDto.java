@@ -8,6 +8,9 @@ public class FormRegisterDto {
     private String password;
     private MultipartFile avatar;
 
+    public FormRegisterDto() {
+    }
+
     public FormRegisterDto(String username, String fullName, String password, MultipartFile avatar) {
         this.username = username;
         this.fullName = fullName;
