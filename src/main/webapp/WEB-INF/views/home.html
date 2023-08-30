@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,12 +14,27 @@
     <li class="nav-item">
         <a class="nav-link" href="/admin">Admin</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/form-login">Login</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/form-register">Register</a>
-    </li>
+    <th:block th:if="${session.userlogin}!=null">
+        <li class="nav-item">
+          <span>
+              <img style="width: 50px;height: 50px;object-fit: cover;border-radius: 50%" th:src="@{|/upload/${session.userlogin.avatarUrl}|}" alt="">
+              <span th:text="${session.userlogin.fullName}"></span>
+          </span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+    </th:block>
+    <th:block th:unless="${session.userlogin}!=null">
+        <li class="nav-item">
+            <a class="nav-link" href="/form-login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/form-register">Register</a>
+        </li>
+    </th:block>
+
+
 </ul>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 

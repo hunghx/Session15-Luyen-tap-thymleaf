@@ -42,7 +42,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserDto login(String username, String password) {
-        return null;
+        return userRepository.login(username,password);
     }
 
     @Override
